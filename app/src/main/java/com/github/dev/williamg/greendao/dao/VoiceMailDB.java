@@ -1,5 +1,7 @@
 package com.github.dev.williamg.greendao.dao;
 
+import com.github.dev.williamg.greendao.model.VoiceMail;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -9,7 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class VoiceMailDB {
-    @Id
+    @Id(autoincrement = true)
     Long id;
 
     @NotNull
@@ -18,7 +20,6 @@ public class VoiceMailDB {
     
     @Transient
     private float fileSize;
-
 
 
     @Generated(hash = 1570594893)
@@ -30,8 +31,7 @@ public class VoiceMailDB {
     @Generated(hash = 2059075204)
     public VoiceMailDB() {
     }
-    
-    
+
 
     public Long getId() {
         return id;
@@ -56,4 +56,12 @@ public class VoiceMailDB {
     public void setFileSize(float fileSize) {
         this.fileSize = fileSize;
     }
+
+    public static VoiceMailDB create(VoiceMail voiceMail) {
+        VoiceMailDB voiceMailDB = new VoiceMailDB();
+        voiceMailDB.setName(voiceMail.getName());
+        voiceMailDB.setFileSize(voiceMail.getFileSize());
+        return voiceMailDB;
+    }
+    
 }
