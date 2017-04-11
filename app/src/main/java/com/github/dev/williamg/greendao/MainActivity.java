@@ -19,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MyApplication myApplication = new MyApplication();
-        interactor = myApplication.getDatabaseInteractor();
+        interactor = ((MyApplication)getApplication()).getDatabaseInteractor(this);
         printAllRows();
 
     }
@@ -35,5 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 }

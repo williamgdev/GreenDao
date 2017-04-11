@@ -1,6 +1,7 @@
 package com.github.dev.williamg.greendao.interactor;
 
 import android.app.Application;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.dev.williamg.greendao.dao.DaoMaster;
@@ -18,8 +19,8 @@ public class DatabaseInteractor {
     DaoSession daoSession;
     VoiceMailDBDao voiceMailDBDao;
 
-    public DatabaseInteractor(Application app) {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(app, DB_NAME, null);
+    public DatabaseInteractor(Context context) {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, DB_NAME, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
@@ -59,7 +60,7 @@ public class DatabaseInteractor {
 
 
     public interface CreateDatabaseListener{
-        void onResult(VoiceMailDB rowIndex);
+        void onResult(VoiceMailDB voiceMailDB);
     }
 
     public interface ReadDatabaseListener{
