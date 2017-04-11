@@ -1,32 +1,39 @@
 package com.github.dev.williamg.greendao;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.github.dev.williamg.greendao.dao.DaoMaster;
-import com.github.dev.williamg.greendao.dao.DaoSession;
 import com.github.dev.williamg.greendao.dao.VoiceMailDB;
-import com.github.dev.williamg.greendao.dao.VoiceMailDBDao;
-import com.github.dev.williamg.greendao.model.VoiceMail;
+import com.github.dev.williamg.greendao.interactor.DatabaseInteractor;
+
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity ->";
+    DatabaseInteractor interactor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "database", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        DaoSession daoSession = daoMaster.newSession();
-        VoiceMailDBDao voiceMailDBDao = daoSession.getVoiceMailDBDao();
+        MyApplication myApplication = new MyApplication();
+        interactor = myApplication.getDatabaseInteractor();
+        printAllRows();
 
-        VoiceMail voiceMail = new VoiceMail("voice_mail");
-        voiceMail.setFileSize(20);
+    }
 
-        voiceMailDBDao.insert(VoiceMailDB.create(voiceMail));
-
+    private void printAllRows() {
+        interactor.read(new DatabaseInteractor.GetRowDatabaseListener() {
+            @Override
+            public void onResult(List<VoiceMailDB> voiceMailDBList) {
+                for (VoiceMailDB voiceMailDB :
+                        voiceMailDBList) {
+                    Log.d(TAG, "onResult: " + voiceMailDB.getName());
+                }
+            }
+        });
     }
 }
