@@ -4,13 +4,20 @@ import android.app.Application;
 import android.content.Context;
 
 import com.github.dev.williamg.greendao.interactor.DatabaseInteractor;
+import com.github.dev.williamg.greendao.interactor.HistoryInteractor;
 
 
 public class MyApplication extends Application {
-    DatabaseInteractor interactor;
+    DatabaseInteractor databaseInteractor;
+    HistoryInteractor historyInteractor;
 
-    public DatabaseInteractor getDatabaseInteractor(Context context) {
-        interactor = new DatabaseInteractor(context);
-        return interactor;
+    public DatabaseInteractor getDatabaseInteractor() {
+        databaseInteractor = new DatabaseInteractor(getApplicationContext());
+        return databaseInteractor;
+    }
+
+    public HistoryInteractor getHistoryInteractor() {
+        historyInteractor = new HistoryInteractor(getApplicationContext());
+        return historyInteractor;
     }
 }
